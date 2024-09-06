@@ -5,10 +5,17 @@ import React from "react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 const LoginPage = () => {
-    const handleLoginWithGithub = () => {
-        console.log("login");
+    const handleLoginWithGithub = async () => {
+        const supabase = await createSupabaseBrowserClient();
+        await supabase.auth.signInWithOAuth({
+            provider: "github",
+            options: {
+                redirectTo: process.env.NEXT_PUBLIC_SUPABASE_AUTH_CALLBACK,
+            },
+        });
     };
 
     return (
