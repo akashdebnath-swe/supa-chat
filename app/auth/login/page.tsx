@@ -6,6 +6,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { toast } from "sonner";
 
 const LoginPage = () => {
     const handleLoginWithGithub = async () => {
@@ -27,13 +28,16 @@ const LoginPage = () => {
                 </p>
 
                 <Button
-                    className='bg-muted flex items-center gap-4 border border-white border-opacity-10 hover:border-opacity-15 hover:bg-muted h-[40px] rounded-md mb-2 focus-visible:ring-primary text-white'
+                    className='bg-muted flex items-center gap-4 border border-white border-opacity-10 hover:border-opacity-25 hover:bg-muted h-[40px] rounded-md mb-2 focus-visible:ring-primary text-white'
                     onClick={handleLoginWithGithub}
                 >
                     <GitHubLogoIcon width={20} height={20} />
                     Continue with GitHub
                 </Button>
-                <Button className='bg-muted flex items-center gap-4 border border-white border-opacity-10 hover:border-opacity-15 hover:bg-muted h-[40px] rounded-md mb-3 focus-visible:ring-primary text-white'>
+                <Button
+                    className='bg-muted flex items-center gap-4 border border-white border-opacity-10 hover:border-opacity-15 hover:bg-muted h-[40px] rounded-md mb-3 focus-visible:ring-primary text-white'
+                    disabled
+                >
                     <Image
                         src='/google.svg'
                         width={20}
@@ -64,7 +68,10 @@ const LoginPage = () => {
                         className='focus-visible:ring-primary'
                     />
                 </div>
-                <Button className='hover:bg-[#2a7252] focus-visible:ring-primary text-white'>
+                <Button
+                    className='hover:bg-[#266e4e] focus-visible:ring-primary text-white border border-green-600 hover:border-green-400 transition-all duration-200 ease-in'
+                    disabled
+                >
                     Log In
                 </Button>
             </div>

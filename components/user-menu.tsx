@@ -4,6 +4,8 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
@@ -11,6 +13,7 @@ import {
 import UserProfile from "./user-profile";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { useTheme } from "next-themes";
 
 interface UserMenuProps {
     username?: string;
@@ -23,6 +26,7 @@ export default function UserMenu({
     profileImg,
     email,
 }: UserMenuProps) {
+    const { theme, setTheme } = useTheme();
     const router = useRouter();
     const supabase = createSupabaseBrowserClient();
 
@@ -55,6 +59,28 @@ export default function UserMenu({
                 <DropdownMenuItem disabled className='dropDownMenuItem'>
                     Docs soon
                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className='text-xs'>Theme</DropdownMenuLabel>
+                <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+                    <DropdownMenuRadioItem
+                        value='dark'
+                        className='dropDownMenuItem'
+                    >
+                        Dark
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem
+                        value='light'
+                        className='dropDownMenuItem'
+                    >
+                        Light
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem
+                        value='system'
+                        className='dropDownMenuItem'
+                    >
+                        System
+                    </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                     className='dropDownMenuItem'
