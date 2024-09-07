@@ -1,10 +1,19 @@
 import ChatHeader from "@/components/chat-header";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+    const supabase = await createSupabaseServerClient();
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    console.log(user);
+
     return (
-        <main className='max-w-3xl mx-auto md:py-10 h-screen'>
+        <main className='w-full md:max-w-md mx-auto md:py-10 h-screen'>
             <div className='h-full border rounded-md'>
-                <ChatHeader />
+                <ChatHeader user={user} />
             </div>
         </main>
     );
