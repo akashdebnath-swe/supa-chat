@@ -6,7 +6,6 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
-import { toast } from "sonner";
 
 const LoginPage = () => {
     const handleLoginWithGithub = async () => {

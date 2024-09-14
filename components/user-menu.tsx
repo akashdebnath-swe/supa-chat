@@ -14,6 +14,7 @@ import UserProfile from "./user-profile";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 interface UserMenuProps {
     username?: string;
@@ -29,6 +30,7 @@ export default function UserMenu({
     const { theme, setTheme } = useTheme();
     const router = useRouter();
     const supabase = createSupabaseBrowserClient();
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=akashdebnathwd@gmail.com&su=Support%20Request&body=Hello%20Support,`;
 
     const handleLogout = async () => {
         await supabase.auth.signOut({ scope: "local" });
@@ -51,10 +53,22 @@ export default function UserMenu({
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className='dropDownMenuItem'>
-                    GitHub
+                    <Link
+                        href={"https://github.com/little-kaii/simple-chat"}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        GitHub
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className='dropDownMenuItem'>
-                    Support
+                    <Link
+                        href={gmailLink}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        Support
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem disabled className='dropDownMenuItem'>
                     Docs soon
