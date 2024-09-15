@@ -48,10 +48,14 @@ export default function UserMenu({
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-56 bg-background'>
-                <DropdownMenuLabel className='text-xs'>
-                    {email}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                {email && (
+                    <>
+                        <DropdownMenuLabel className='text-xs'>
+                            {email}
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                    </>
+                )}
                 <DropdownMenuItem className='dropDownMenuItem'>
                     <Link
                         href={"https://github.com/little-kaii/simple-chat"}
