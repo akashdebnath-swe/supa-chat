@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { userState, useUser } from "./index";
+import { messageState, useMessage } from "./index";
 
-const InitUser = ({ user }: userState) => {
+const InitMessages = ({ messages }: messageState) => {
     const initState = useRef(false);
 
     useEffect(() => {
         if (!initState.current) {
-            useUser.setState({ user });
+            useMessage.setState({ messages });
         }
 
         initState.current = true;
-    }, [user]);
+    }, [messages]);
     return <></>;
 };
 
-export default InitUser;
+export default InitMessages;
