@@ -1,6 +1,7 @@
 import { Imessage, useUser } from "@/lib/store";
 import UserProfile from "./user-profile";
-import MessageMenu from "./message-menu";
+import { lazy } from "react";
+const MessageMenu = lazy(() => import("./message-menu"));
 
 interface MessageProps {
     message: Imessage;
@@ -28,7 +29,9 @@ const Message = ({ message }: MessageProps) => {
                                 {new Date(message.created_at).toDateString()}
                             </h1>
                         </div>
-                        {message.users?.id === user?.id && <MessageMenu />}
+                        {message.users?.id === user?.id && (
+                            <MessageMenu message={message} />
+                        )}
                     </div>
                     <p className='text-gray-300 text-sm'>{message.text}</p>
                 </div>

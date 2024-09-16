@@ -68,7 +68,7 @@ const LoginPage = () => {
                     />
                 </div>
                 <Button
-                    className='hover:bg-[#266e4e] focus-visible:ring-primary text-white border border-green-600 hover:border-green-400 transition-all duration-200 ease-in'
+                    className='focus-visible:ring-primary transition-all duration-200 ease-in cursor-not-allowed disabled:bg-zinc-600'
                     disabled
                 >
                     Log In

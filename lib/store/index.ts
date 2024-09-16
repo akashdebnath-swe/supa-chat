@@ -21,7 +21,10 @@ export interface userState {
 }
 export interface messageState {
     messages: Imessage[];
+    activeMessage: Imessage | undefined;
     addMessage: (message: Imessage) => void;
+    setActiveMessage: (message: Imessage | undefined) => void;
+    deleteMessage: (messageId: string) => void;
 }
 
 export const useUser = create<userState>(() => ({
@@ -30,5 +33,13 @@ export const useUser = create<userState>(() => ({
 
 export const useMessage = create<messageState>((set) => ({
     messages: [],
-    addMessage: (message) => set((state) => ({ messages: [...state.messages, message]}))
+    activeMessage: undefined,
+    addMessage: (message) => set((state) => ({ messages: [...state.messages, message]})),
+    setActiveMessage: (message) => set(() => ({ activeMessage: message })),
+    deleteMessage: (id) => set((state) => ({messages: state.messages.filter((message) => message.id !== id )}))
+    // deleteMessage: (id) => set((state) => {
+    //     return {
+    //         messages: state.messages.filter((message) => message.id !== id )
+    //     }
+    // })
 }));

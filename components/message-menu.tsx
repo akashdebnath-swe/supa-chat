@@ -7,15 +7,21 @@ import {
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import { Imessage, useMessage } from "@/lib/store";
 
-const MessageMenu = () => {
+interface MessageMenuProps {
+    message: Imessage;
+}
+
+const MessageMenu = ({ message }: MessageMenuProps) => {
+    const { setActiveMessage } = useMessage((state) => state);
+
     const handleMessageDelete = () => {
         console.log("delete message");
     };
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            console.log(event);
             if (event.ctrlKey && event.key === "Delete") {
                 handleMessageDelete();
             }
@@ -40,7 +46,10 @@ const MessageMenu = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className='dropDownMenuItem'
-                        onClick={handleMessageDelete}
+                        onClick={() => {
+                            document.getElementById("trigger-delete")?.click();
+                            setActiveMessage(message);
+                        }}
                     >
                         Delete
                         <DropdownMenuShortcut>ctrl + del</DropdownMenuShortcut>
