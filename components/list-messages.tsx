@@ -3,6 +3,7 @@
 import { lazy } from "react";
 import { useMessage } from "@/lib/store";
 import Message from "./message";
+import EditDialog from "./edit-dialog";
 const DeleteAlert = lazy(() => import("./delete-alert"));
 
 const ListMessages = () => {
@@ -16,6 +17,7 @@ const ListMessages = () => {
                 ))}
             </div>
             <DeleteAlert />
+            <EditDialog />
         </section>
     );
 };

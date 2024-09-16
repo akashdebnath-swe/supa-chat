@@ -22,7 +22,11 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <Toaster position='bottom-right' expand={true} />
+                    <Toaster
+                        position='top-center'
+                        closeButton
+                        duration={2000}
+                    />
                     {children}
                 </ThemeProvider>
             </body>

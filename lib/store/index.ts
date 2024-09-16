@@ -25,6 +25,7 @@ export interface messageState {
     addMessage: (message: Imessage) => void;
     setActiveMessage: (message: Imessage | undefined) => void;
     deleteMessage: (messageId: string) => void;
+    optimisticUpdateMessage: (message: Imessage) => void;
 }
 
 export const useUser = create<userState>(() => ({
@@ -36,10 +37,21 @@ export const useMessage = create<messageState>((set) => ({
     activeMessage: undefined,
     addMessage: (message) => set((state) => ({ messages: [...state.messages, message]})),
     setActiveMessage: (message) => set(() => ({ activeMessage: message })),
-    deleteMessage: (id) => set((state) => ({messages: state.messages.filter((message) => message.id !== id )}))
-    // deleteMessage: (id) => set((state) => {
-    //     return {
-    //         messages: state.messages.filter((message) => message.id !== id )
-    //     }
-    // })
+    deleteMessage: (id) => set((state) => {
+        return {
+            messages: state.messages.filter((message) => message.id !== id )
+        }
+    }),
+    optimisticUpdateMessage: (updatedMessage) => set((state) => {
+        return {
+            messages: state.messages.filter((message) => {
+                if(message.id === updatedMessage.id) {
+                    message.text = updatedMessage.text,
+                    message.is_edit = updatedMessage.is_edit
+                }
+
+                return message;
+            })
+        }
+    })
 }));

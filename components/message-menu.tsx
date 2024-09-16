@@ -41,7 +41,13 @@ const MessageMenu = ({ message }: MessageMenuProps) => {
                     <MoreHorizontal size={16} className='cursor-pointer' />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-56 bg-background'>
-                    <DropdownMenuItem className='dropDownMenuItem'>
+                    <DropdownMenuItem
+                        className='dropDownMenuItem'
+                        onClick={() => {
+                            document.getElementById("trigger-edit")?.click();
+                            setActiveMessage(message);
+                        }}
+                    >
                         Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem
