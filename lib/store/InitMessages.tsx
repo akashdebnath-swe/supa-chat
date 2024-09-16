@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { messageState, useMessage } from "./index";
+import { Imessage, useMessage } from "./index";
 
-const InitMessages = ({ messages }: messageState) => {
+const InitMessages = ({ messages }: { messages: Imessage[] }) => {
     const initState = useRef(false);
 
     useEffect(() => {

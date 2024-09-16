@@ -21,12 +21,14 @@ export interface userState {
 }
 export interface messageState {
     messages: Imessage[];
+    addMessage: (message: Imessage) => void;
 }
 
-export const useUser = create<userState>()(() => ({
+export const useUser = create<userState>(() => ({
     user: null,
 }));
 
-export const useMessage = create<messageState>()(() => ({
+export const useMessage = create<messageState>((set) => ({
     messages: [],
+    addMessage: (message) => set((state) => ({ messages: [...state.messages, message]}))
 }));
