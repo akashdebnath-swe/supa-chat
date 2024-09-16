@@ -8,11 +8,12 @@ const ChatInput = () => {
     const supabase = createSupabaseBrowserClient();
 
     const handleSendMessage = async (text: string) => {
-        // call to supabase to insert the new message
-        const { error } = await supabase.from("messages").insert({ text });
+        if (text) {
+            const { error } = await supabase.from("messages").insert({ text });
 
-        if (error) {
-            toast.error(error.message);
+            if (error) {
+                toast.error(error.message);
+            }
         }
     };
 

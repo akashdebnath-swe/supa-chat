@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface UserProfileProps {
     username?: string;
-    img: string;
+    img?: string;
     className?: string;
     width?: number;
     height?: number;
@@ -27,7 +27,7 @@ const UserProfile = ({
                 width={width}
                 height={height}
                 alt='profile-img'
-                className=' rounded-full'
+                className='rounded-full'
             />
             {username && <span className='text-xs'>{username}</span>}
         </div>
@@ -37,8 +37,6 @@ const UserProfile = ({
                 className='rounded-full bg-zinc-700'
                 style={{ width: `${width}px`, height: `${height}px` }}
             />
-
-            <Skeleton className='w-[100px] h-4 bg-zinc-700' />
         </div>
     );
 };
