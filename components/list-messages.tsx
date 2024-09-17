@@ -1,6 +1,6 @@
 "use client";
 
-import { lazy, useEffect } from "react";
+import { lazy, useEffect, useRef } from "react";
 import { Imessage, useMessage } from "@/lib/store";
 import Message from "./message";
 import EditDialog from "./edit-dialog";
@@ -9,6 +9,8 @@ import { toast } from "sonner";
 const DeleteAlert = lazy(() => import("./delete-alert"));
 
 const ListMessages = () => {
+    const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+
     const { messages, addMessage, optimisticIds } = useMessage(
         (state) => state
     );
@@ -53,8 +55,19 @@ const ListMessages = () => {
         };
     }, [supabase, addMessage, optimisticIds]);
 
+    useEffect(() => {
+        const scrollContainer = scrollRef.current;
+
+        if (scrollContainer) {
+            scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        }
+    }, [messages]);
+
     return (
-        <section className='flex-1 flex flex-col p-5 h-full overflow-y-auto'>
+        <section
+            className='flex-1 flex flex-col p-5 h-full overflow-y-auto'
+            ref={scrollRef}
+        >
             <div className='flex-1'> </div>
             <div className='space-y-7'>
                 {messages.map((message, index) => (
