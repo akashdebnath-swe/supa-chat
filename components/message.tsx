@@ -13,21 +13,30 @@ const Message = ({ message }: MessageProps) => {
     return (
         <>
             <div className='flex gap-2'>
-                <UserProfile
-                    img={
-                        message.users?.avatar_url ||
-                        `https://api.multiavatar.com/${message.send_by}.svg`
-                    }
-                />
+                <div>
+                    <UserProfile
+                        img={
+                            message.users?.avatar_url ||
+                            `https://api.multiavatar.com/${message.send_by}.svg`
+                        }
+                    />
+                </div>
                 <div className='flex-1'>
                     <div className='flex items-center justify-between'>
-                        <div className='flex items-center gap-1'>
-                            <h1 className='font-bold text-sm'>
-                                {message.users?.display_name}
-                            </h1>
-                            <h1 className='text-xs text-gray-400'>
+                        <div className='flex flex-col'>
+                            <div className='flex items-center gap-2'>
+                                <h1 className='font-bold text-sm'>
+                                    {message.users?.display_name}
+                                </h1>
+                                {message.is_edit && (
+                                    <span className='text-xs text-gray-400'>
+                                        Edited
+                                    </span>
+                                )}
+                            </div>
+                            <span className='text-xs text-gray-500'>
                                 {new Date(message.created_at).toDateString()}
-                            </h1>
+                            </span>
                         </div>
                         {message.users?.id === user?.id && (
                             <MessageMenu message={message} />

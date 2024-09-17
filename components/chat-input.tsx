@@ -23,7 +23,7 @@ const ChatInput = () => {
                     users: {
                         avatar_url: user.user_metadata.avatar_url,
                         created_at: user.created_at,
-                        display_name: user.user_metadata.user_name,
+                        display_name: user.user_metadata.full_name,
                         email: user.user_metadata.email,
                         id: user.id,
                     },
@@ -47,6 +47,7 @@ const ChatInput = () => {
             <Input
                 placeholder='send message'
                 onKeyDown={(e) => {
+                    e.stopPropagation();
                     if (e.key === "Enter") {
                         handleSendMessage(e.currentTarget.value);
                         e.currentTarget.value = "";

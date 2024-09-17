@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useMessage } from "@/lib/store";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 const EditDialog = () => {
@@ -21,12 +21,16 @@ const EditDialog = () => {
 
     const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-    const handleEdit = async () => {
+    const handleEdit = useCallback(async () => {
         const supabase = createSupabaseBrowserClient();
 
         const text = inputRef.current.value.trim();
 
         if (text && activeMessage) {
+            if (text === activeMessage.text) {
+                document.getElementById("trigger-edit")?.click();
+                return;
+            }
             optimisticUpdateMessage({ ...activeMessage, text, is_edit: true });
             const { error } = await supabase
                 .from("messages")
@@ -44,7 +48,22 @@ const EditDialog = () => {
             document.getElementById("trigger-edit")?.click();
             document.getElementById("trigger-delete")?.click();
         }
-    };
+    }, [activeMessage, optimisticUpdateMessage]);
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Enter") {
+                event.stopImmediatePropagation();
+                handleEdit();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [handleEdit]);
 
     return (
         <Dialog>

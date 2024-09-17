@@ -12,7 +12,7 @@ const ChatHeader = ({ user }: ChatHeaderProps) => {
         <header>
             <nav className='px-5 py-2 border-b flex items-center justify-between'>
                 <div className='flex flex-col gap-2'>
-                    <h1 className='text-md'>Simple Chat</h1>
+                    <h1 className='text-md'>Connect</h1>
                     <div className='flex items-center gap-2'>
                         <div className='h-2 w-2 bg-green-500 rounded-full animate-pulse' />
                         <span className='text-xs text-gray-400'>2 online</span>
@@ -20,7 +20,7 @@ const ChatHeader = ({ user }: ChatHeaderProps) => {
                 </div>
 
                 <UserMenu
-                    username={user?.user_metadata?.user_name}
+                    username={user?.user_metadata?.full_name}
                     profileImg={user?.user_metadata?.avatar_url}
                     email={user?.email}
                 />
