@@ -1,16 +1,15 @@
 "use client";
 
 import Script from "next/script";
-import google, { CredentialResponse } from "google-one-tap";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import google, { CredentialResponse } from "google-one-tap";
 
 const OneTapComponent = () => {
     const supabase = createSupabaseBrowserClient();
     const router = useRouter();
 
-    // generate nonce to use for google id token sign-in
     const generateNonce = async (): Promise<string[]> => {
         const nonce = btoa(
             String.fromCharCode(
@@ -29,58 +28,51 @@ const OneTapComponent = () => {
     };
 
     useEffect(() => {
-        const initializeGoogleOneTap = async () => {
-            console.log("Initializing Google One Tap");
-            window.addEventListener("load", async () => {
-                const [nonce, hashedNonce] = await generateNonce();
-                console.log("Nonce: ", nonce, hashedNonce);
+        const handleGoogleOneTap = async () => {
+            const [nonce, hashedNonce] = await generateNonce();
 
-                // check if there's already an existing session before initializing the one-tap UI
-                const { data, error } = await supabase.auth.getSession();
-                if (error) {
-                    console.error("Error getting session", error);
-                }
-                if (data.session) {
-                    router.push("/");
-                    return;
-                }
+            const { data, error } = await supabase.auth.getSession();
+            if (error) {
+                console.error("Error getting session", error);
+            }
+            if (data.session) {
+                router.push("/");
+                return;
+            }
 
-                google.accounts.id.initialize({
-                    client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
-                    callback: async (response: CredentialResponse) => {
-                        try {
-                            // send id token returned in response.credential to supabase
-                            const { data, error } =
-                                await supabase.auth.signInWithIdToken({
-                                    provider: "google",
-                                    token: response.credential,
-                                    nonce,
-                                });
+            google.accounts.id.initialize({
+                client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+                callback: async (response: CredentialResponse) => {
+                    try {
+                        const { data, error } =
+                            await supabase.auth.signInWithIdToken({
+                                provider: "google",
+                                token: response.credential,
+                                nonce,
+                            });
 
-                            if (error) throw error;
-                            console.log("Session data: ", data);
-                            console.log(
-                                "Successfully logged in with Google One Tap"
-                            );
+                        if (error) throw error;
 
-                            // redirect to protected page
-                            router.push("/");
-                        } catch (error) {
-                            console.error(
-                                "Error logging in with Google One Tap",
-                                error
-                            );
-                        }
-                    },
-                    nonce: hashedNonce,
-                    // with chrome's removal of third-party cookiesm, we need to use FedCM instead (https://developers.google.com/identity/gsi/web/guides/fedcm-migration)
-                    use_fedcm_for_prompt: true,
-                });
-                google.accounts.id.prompt(); // Display the One Tap UI
+                        router.push("/");
+                    } catch (error) {
+                        console.error(
+                            "Error logging in with Google One Tap",
+                            error
+                        );
+                    }
+                },
+                nonce: hashedNonce,
+                use_fedcm_for_prompt: true,
             });
+
+            google.accounts.id.prompt();
         };
-        initializeGoogleOneTap();
-        return () => window.removeEventListener("load", initializeGoogleOneTap);
+
+        const onLoad = () => handleGoogleOneTap();
+
+        window.addEventListener("load", onLoad);
+
+        return () => window.removeEventListener("load", onLoad);
     }, [router, supabase]);
 
     return (

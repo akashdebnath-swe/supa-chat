@@ -6,6 +6,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import OneTapComponent from "@/components/google-onetap";
 
 const LoginPage = () => {
     const supabase = createSupabaseBrowserClient();
@@ -35,7 +36,7 @@ const LoginPage = () => {
 
     return (
         <>
-            <section className='w-full h-screen flex items-center justify-center'>
+            <section className='w-full h-screen flex items-center justify-center relative'>
                 <div className='w-full sm:max-w-md flex flex-col px-20 gap-2'>
                     <h1 className='text-2xl text-white'>Welcome back</h1>
                     <p className='text-sm mb-6 text-white'>
@@ -90,6 +91,7 @@ const LoginPage = () => {
                         Log In
                     </Button>
                 </div>
+                <OneTapComponent />
             </section>
         </>
     );

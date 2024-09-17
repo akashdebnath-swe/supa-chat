@@ -22,10 +22,12 @@ export interface userState {
 export interface messageState {
     messages: Imessage[];
     activeMessage: Imessage | undefined;
+    optimisticIds: string[];
     addMessage: (message: Imessage) => void;
     setActiveMessage: (message: Imessage | undefined) => void;
     deleteMessage: (messageId: string) => void;
     optimisticUpdateMessage: (message: Imessage) => void;
+    setOptimisticIds: (messageId: string) => void;
 }
 
 export const useUser = create<userState>(() => ({
@@ -35,23 +37,32 @@ export const useUser = create<userState>(() => ({
 export const useMessage = create<messageState>((set) => ({
     messages: [],
     activeMessage: undefined,
-    addMessage: (message) => set((state) => ({ messages: [...state.messages, message]})),
-    setActiveMessage: (message) => set(() => ({ activeMessage: message })),
-    deleteMessage: (id) => set((state) => {
+    optimisticIds: [],
+    setOptimisticIds: (messageId) => set((state) => {
         return {
-            messages: state.messages.filter((message) => message.id !== id )
+            optimisticIds: [...state.optimisticIds, messageId]
         }
     }),
-    optimisticUpdateMessage: (updatedMessage) => set((state) => {
-        return {
-            messages: state.messages.filter((message) => {
-                if(message.id === updatedMessage.id) {
-                    message.text = updatedMessage.text,
-                    message.is_edit = updatedMessage.is_edit
-                }
+    addMessage: (message) =>
+        set((state) => ({ messages: [...state.messages, message] })),
+    setActiveMessage: (message) => set(() => ({ activeMessage: message })),
+    deleteMessage: (id) =>
+        set((state) => {
+            return {
+                messages: state.messages.filter((message) => message.id !== id),
+            };
+        }),
+    optimisticUpdateMessage: (updatedMessage) =>
+        set((state) => {
+            return {
+                messages: state.messages.filter((message) => {
+                    if (message.id === updatedMessage.id) {
+                        (message.text = updatedMessage.text),
+                            (message.is_edit = updatedMessage.is_edit);
+                    }
 
-                return message;
-            })
-        }
-    })
+                    return message;
+                }),
+            };
+        }),
 }));
