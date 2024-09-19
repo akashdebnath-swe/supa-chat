@@ -11,8 +11,13 @@ const DeleteAlert = lazy(() => import("./delete-alert"));
 const ListMessages = () => {
     const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
-    const { messages, addMessage, optimisticIds, optimisticDeleteMessage } =
-        useMessage((state) => state);
+    const {
+        messages,
+        addMessage,
+        optimisticIds,
+        optimisticDeleteMessage,
+        optimisticUpdateMessage,
+    } = useMessage((state) => state);
 
     const supabase = createSupabaseBrowserClient();
 
@@ -26,7 +31,6 @@ const ListMessages = () => {
                     console.log("Change received by insert!", payload);
 
                     const isMessage = optimisticIds.includes(payload.new.id);
-                    console.log(isMessage);
                     if (!isMessage) {
                         const { error, data } = await supabase
                             .from("users")
@@ -58,8 +62,24 @@ const ListMessages = () => {
             .on(
                 "postgres_changes",
                 { event: "UPDATE", schema: "public", table: "messages" },
-                (payload) => {
+                async (payload) => {
                     console.log("Change received by update!", payload);
+                    const { error, data } = await supabase
+                        .from("users")
+                        .select("*")
+                        .eq("id", payload.new.send_by)
+                        .single();
+
+                    if (error) {
+                        toast.error(error.message);
+                    } else {
+                        const newMessage = {
+                            ...payload.new,
+                            users: data,
+                        };
+
+                        optimisticUpdateMessage(newMessage as Imessage);
+                    }
                 }
             )
             .subscribe();
@@ -67,7 +87,13 @@ const ListMessages = () => {
         return () => {
             channel.unsubscribe();
         };
-    }, [supabase, addMessage, optimisticIds, optimisticDeleteMessage]);
+    }, [
+        supabase,
+        addMessage,
+        optimisticIds,
+        optimisticDeleteMessage,
+        optimisticUpdateMessage,
+    ]);
 
     useEffect(() => {
         const scrollContainer = scrollRef.current;
