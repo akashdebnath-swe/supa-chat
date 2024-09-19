@@ -25,7 +25,7 @@ const Message = ({ message }: MessageProps) => {
                     <div className='flex items-center justify-between'>
                         <div className='flex flex-col'>
                             <div className='flex items-center gap-2'>
-                                <h1 className='font-bold text-sm'>
+                                <h1 className='text-gray-700 dark:text-gray-200 font-semibold text-xs'>
                                     {message.users?.display_name}
                                 </h1>
                                 {message.is_edit && (
@@ -42,7 +42,9 @@ const Message = ({ message }: MessageProps) => {
                             <MessageMenu message={message} />
                         )}
                     </div>
-                    <p className='text-gray-300 text-sm'>{message.text}</p>
+                    <p className='text-gray-700 dark:text-gray-300 text-sm'>
+                        {message.text}
+                    </p>
                 </div>
             </div>
         </>

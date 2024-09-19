@@ -11,9 +11,8 @@ const DeleteAlert = lazy(() => import("./delete-alert"));
 const ListMessages = () => {
     const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
-    const { messages, addMessage, optimisticIds } = useMessage(
-        (state) => state
-    );
+    const { messages, addMessage, optimisticIds, optimisticDeleteMessage } =
+        useMessage((state) => state);
 
     const supabase = createSupabaseBrowserClient();
 
@@ -24,7 +23,7 @@ const ListMessages = () => {
                 "postgres_changes",
                 { event: "INSERT", schema: "public", table: "messages" },
                 async (payload) => {
-                    console.log("Change received!", payload);
+                    console.log("Change received by insert!", payload);
 
                     const isMessage = optimisticIds.includes(payload.new.id);
                     console.log(isMessage);
@@ -48,12 +47,27 @@ const ListMessages = () => {
                     }
                 }
             )
+            .on(
+                "postgres_changes",
+                { event: "DELETE", schema: "public", table: "messages" },
+                (payload) => {
+                    console.log("Change received by delete!", payload);
+                    optimisticDeleteMessage(payload.old.id);
+                }
+            )
+            .on(
+                "postgres_changes",
+                { event: "UPDATE", schema: "public", table: "messages" },
+                (payload) => {
+                    console.log("Change received by update!", payload);
+                }
+            )
             .subscribe();
 
         return () => {
             channel.unsubscribe();
         };
-    }, [supabase, addMessage, optimisticIds]);
+    }, [supabase, addMessage, optimisticIds, optimisticDeleteMessage]);
 
     useEffect(() => {
         const scrollContainer = scrollRef.current;

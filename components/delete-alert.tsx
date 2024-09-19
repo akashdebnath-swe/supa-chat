@@ -14,12 +14,14 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { toast } from "sonner";
 
 const DeleteAlert = () => {
-    const { activeMessage, deleteMessage } = useMessage((state) => state);
+    const { activeMessage, optimisticDeleteMessage } = useMessage(
+        (state) => state
+    );
 
     const handleDeleteMessage = async () => {
         const supabase = createSupabaseBrowserClient();
         if (activeMessage?.id) {
-            deleteMessage(activeMessage.id);
+            optimisticDeleteMessage(activeMessage.id);
             const { error } = await supabase
                 .from("messages")
                 .delete()
