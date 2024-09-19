@@ -13,7 +13,7 @@ export default async function Home() {
 
     return (
         <main className='w-full md:max-w-md mx-auto md:py-10 h-screen'>
-            <div className='h-full border rounded-md flex flex-col'>
+            <div className='h-full border rounded-md flex flex-col relative'>
                 <ChatHeader user={user} />
                 <ChatContainer />
                 <ChatInput />

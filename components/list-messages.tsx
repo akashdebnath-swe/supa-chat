@@ -1,14 +1,17 @@
 "use client";
 
-import { lazy, useEffect, useRef } from "react";
+import { lazy, useEffect, useRef, useState } from "react";
 import { Imessage, useMessage } from "@/lib/store";
 import Message from "./message";
 import EditDialog from "./edit-dialog";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { toast } from "sonner";
+import { ArrowDown } from "lucide-react";
 const DeleteAlert = lazy(() => import("./delete-alert"));
 
 const ListMessages = () => {
+    const [userScrolled, setUserScrolled] = useState<boolean>(false);
+
     const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
     const {
@@ -99,14 +102,33 @@ const ListMessages = () => {
         const scrollContainer = scrollRef.current;
 
         if (scrollContainer) {
-            scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            scrollToDown();
         }
     }, [messages]);
+
+    const handleOnScroll = () => {
+        const scrollContainer = scrollRef.current;
+
+        if (scrollContainer) {
+            const isScroll =
+                scrollContainer.scrollTop <
+                scrollContainer.scrollHeight -
+                    scrollContainer.clientHeight -
+                    10;
+
+            setUserScrolled(isScroll);
+        }
+    };
+
+    const scrollToDown = () => {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    };
 
     return (
         <section
             className='flex-1 flex flex-col p-5 h-full overflow-y-auto'
             ref={scrollRef}
+            onScroll={handleOnScroll}
         >
             <div className='flex-1'> </div>
             <div className='space-y-7'>
@@ -114,6 +136,16 @@ const ListMessages = () => {
                     <Message key={index} message={message} />
                 ))}
             </div>
+            {userScrolled && (
+                <div className='absolute bottom-20 left-0 w-full'>
+                    <div
+                        className='w-6 h-6 text-white bg-blue-500 rounded-full flex items-center justify-center cursor-pointer mx-auto border hover:scale-110 transition-all duration-200 ease-in'
+                        onClick={scrollToDown}
+                    >
+                        <ArrowDown size={18} />
+                    </div>
+                </div>
+            )}
             <DeleteAlert />
             <EditDialog />
         </section>
