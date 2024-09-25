@@ -7,6 +7,7 @@ import EditDialog from "./edit-dialog";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { toast } from "sonner";
 import { ArrowDown } from "lucide-react";
+import LoadMoreMessages from "./load-more-messages";
 const DeleteAlert = lazy(() => import("./delete-alert"));
 
 const ListMessages = () => {
@@ -21,6 +22,7 @@ const ListMessages = () => {
         optimisticIds,
         optimisticDeleteMessage,
         optimisticUpdateMessage,
+        hasMore,
     } = useMessage((state) => state);
 
     const supabase = createSupabaseBrowserClient();
@@ -146,11 +148,16 @@ const ListMessages = () => {
 
     return (
         <section
-            className='flex-1 flex flex-col p-5 h-full overflow-y-auto'
+            className='flex-1 flex flex-col p-5 h-full overflow-y-auto gap-5'
             ref={scrollRef}
             onScroll={handleOnScroll}
         >
-            <div className='flex-1'> </div>
+            {hasMore && (
+                <div className='flex-1'>
+                    <LoadMoreMessages />
+                </div>
+            )}
+
             <div className='space-y-7'>
                 {messages.map((message, index) => (
                     <Message key={index} message={message} />

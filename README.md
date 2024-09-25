@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Markdown Syntax Guide
 
-## Getting Started
+## Headings
 
-First, run the development server:
+# Heading 1
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Heading 2
+
+### Heading 3
+
+#### Heading 4
+
+##### Heading 5
+
+###### Heading 6
+
+---
+
+## Emphasis
+
+_Italic_ or _Italic_
+
+**Bold** or **Bold**
+
+**_Bold and Italic_** or **_Bold and Italic_**
+
+~~Strikethrough~~
+
+---
+
+## Blockquote
+
+> This is a blockquote.
+>
+> > Nested blockquote.
+
+---
+
+## Lists
+
+### Unordered List
+
+-   Item 1
+    -   Subitem 1.1
+-   Item 2
+-   Item 3
+
+### Ordered List
+
+1. First item
+2. Second item
+    1. Subitem 2.1
+    2. Subitem 2.2
+3. Third item
+
+---
+
+## Code
+
+### Inline Code
+
+Use the `code()` function.
+
+### Code Block
+
+```javascript
+function greet() {
+    console.log("Hello, world!");
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Code Block with Syntax Highlighting (Python)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```python
+def greet():
+    print("Hello, world!")
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Horizontal Rule
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Links
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[Link Text](https://example.com)
 
-## Deploy on Vercel
+<https://example.com>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Images
+
+![Alt Text](https://via.placeholder.com/150)
+
+---
+
+## Tables
+
+| Syntax    | Description |
+| --------- | ----------- |
+| Header    | Title       |
+| Paragraph | Text        |
+
+---
+
+## Task Lists
+
+-   [x] Task 1
+-   [ ] Task 2
+-   [ ] Task 3
+
+---
+
+## Escaping Special Characters
+
+Use a backslash `\` before special characters to escape them:  
+\* \_ \` \~ \# \> \- \[ \]
+
+---
+
+## Footnotes
+
+Here is a simple footnote.[^1]
+
+[^1]: This is the footnote text.
+
+---
+
+## Definition Lists
+
+Term 1
+: Definition 1
+
+Term 2
+: Definition 2
+
+---
+
+## Inline HTML
+
+<p>This is a paragraph in HTML.</p>
+
+---
+
+## Emoticons
+
+Here are a few common emoticons:  
+:smile: :heart: :+1:
+
+---
+
+## Task Lists
+
+-   [x] Write documentation
+-   [ ] Add more features
+-   [ ] Review code
