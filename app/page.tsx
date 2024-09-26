@@ -1,3 +1,4 @@
+import ChatAbout from "@/components/chat-about";
 import ChatContainer from "@/components/chat-container";
 import ChatHeader from "@/components/chat-header";
 import ChatInput from "@/components/chat-input";
@@ -15,8 +16,14 @@ export default async function Home() {
         <main className='w-full md:max-w-md mx-auto md:py-10 h-screen'>
             <div className='h-full border rounded-md flex flex-col relative'>
                 <ChatHeader user={user} />
-                <ChatContainer />
-                <ChatInput />
+                {user ? (
+                    <>
+                        <ChatContainer />
+                        <ChatInput />
+                    </>
+                ) : (
+                    <ChatAbout />
+                )}
             </div>
             <InitUser user={user} />
         </main>

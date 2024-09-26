@@ -19,7 +19,6 @@ export default function ChatPresence() {
                 }
                 // it will create a array of unique ids
                 const uniqueUserIds = Array.from(new Set(userIds));
-                console.log("unique ids: ", uniqueUserIds);
                 setOnlineUsers(uniqueUserIds.length);
             })
             .subscribe(async (status) => {

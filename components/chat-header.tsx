@@ -2,7 +2,7 @@
 
 import { User } from "@supabase/supabase-js";
 import UserMenu from "./user-menu";
-import ChatPresence from "./ChatPresence";
+import ChatPresence from "./chat-presence";
 
 interface ChatHeaderProps {
     user: User | null;

@@ -6,31 +6,34 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { toast } from "sonner";
 
 const LoginPage = () => {
     const supabase = createSupabaseBrowserClient();
     const handleLoginWithGithub = async () => {
-        const { data, error } = await supabase.auth.signInWithOAuth({
+        const { error } = await supabase.auth.signInWithOAuth({
             provider: "github",
             options: {
                 redirectTo: process.env.NEXT_PUBLIC_SUPABASE_AUTH_CALLBACK,
             },
         });
 
-        console.log(data);
-        console.log(error);
+        if (error) {
+            toast.error(error.message);
+        }
     };
 
     const handleLoginWithGoogle = async () => {
-        const { data, error } = await supabase.auth.signInWithOAuth({
+        const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
             options: {
                 redirectTo: process.env.NEXT_PUBLIC_SUPABASE_AUTH_CALLBACK,
             },
         });
 
-        console.log(data);
-        console.log(error);
+        if (error) {
+            toast.error(error.message);
+        }
     };
 
     return (
