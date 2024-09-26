@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { getFromAndTo } from "@/lib/utils";
 
 const LoadMoreMessages = () => {
-    const { setMesssages, page, hasMore } = useMessage((state) => state);
+    const { setMesssages, page } = useMessage((state) => state);
 
     const fetchMore = async () => {
         const { from, to } = getFromAndTo(page, LIMIT_MESSAGE);

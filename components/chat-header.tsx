@@ -2,6 +2,7 @@
 
 import { User } from "@supabase/supabase-js";
 import UserMenu from "./user-menu";
+import ChatPresence from "./ChatPresence";
 
 interface ChatHeaderProps {
     user: User | null;
@@ -13,10 +14,7 @@ const ChatHeader = ({ user }: ChatHeaderProps) => {
             <nav className='px-5 py-2 border-b flex items-center justify-between'>
                 <div className='flex flex-col gap-2'>
                     <h1 className='text-md'>Connect</h1>
-                    <div className='flex items-center gap-2'>
-                        <div className='h-2 w-2 bg-green-500 rounded-full animate-pulse' />
-                        <span className='text-xs text-gray-400'>2 online</span>
-                    </div>
+                    <ChatPresence />
                 </div>
 
                 <UserMenu
