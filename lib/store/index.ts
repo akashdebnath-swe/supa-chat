@@ -11,7 +11,7 @@ export interface Imessage {
     users: {
         avatar_url: string | null;
         created_at: string;
-        display_name: string;
+        display_name: string | null;
         email: string | null;
         id: string;
     } | null;

@@ -13,11 +13,10 @@ const ChatContainer = async () => {
         .range(0, LIMIT_MESSAGE)
         .order("created_at", { ascending: false });
 
-    console.log(data);
     return (
         <Suspense fallback={<Fallback />}>
             <ListMessages />
-            <InitMessages messages={data?.reverse() || []} />
+            {data && <InitMessages messages={data.reverse()} />}
         </Suspense>
     );
 };
