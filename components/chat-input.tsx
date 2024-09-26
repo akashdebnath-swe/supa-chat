@@ -11,8 +11,6 @@ const ChatInput = () => {
     const user = useUser((state) => state.user);
     const { addMessage, setOptimisticIds } = useMessage((state) => state);
 
-    // this is a comment
-
     const handleSendMessage = async (text: string) => {
         if (text) {
             if (user) {
