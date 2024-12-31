@@ -4,8 +4,8 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-    title: "Simple-Chat",
-    description: "Simple-Chat using next.js supabase and socket.io",
+    title: "supa-chat",
+    description: "supa-chat using next.js supabase and socket.io",
 };
 
 export default function RootLayout({
@@ -14,16 +14,16 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang='en' suppressHydrationWarning>
+        <html lang="en" suppressHydrationWarning>
             <body className={`antialiased relative`}>
                 <ThemeProvider
-                    attribute='class'
-                    defaultTheme='dark'
+                    attribute="class"
+                    defaultTheme="dark"
                     enableSystem
                     disableTransitionOnChange
                 >
                     <Toaster
-                        position='top-center'
+                        position="top-center"
                         closeButton
                         duration={2000}
                     />
